@@ -1,0 +1,14 @@
+.gwt-TabLayoutPanelTab {
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.gwt-TabLayoutPanelTab-selected {
+	background: #aaa;
+}
+
+.popupContent {
+	background: #aaa;
+	max-width: 60%;
+}

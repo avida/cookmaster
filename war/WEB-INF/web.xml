@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+    <welcome-file-list>
+    <welcome-file>cookmaster.html</welcome-file>
+  </welcome-file-list>
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>CookmasterService</servlet-name>
+    <servlet-class>cookmaster.server.CookmasterServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CookmasterService</servlet-name>
+    <url-pattern>/cookmaster.Cookmaster/contacts</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DBInterface</servlet-name>
+    <servlet-class>cookmaster.server.DBInterface</servlet-class>
+  </servlet>
+ <servlet-mapping>
+   <servlet-name>DBInterface</servlet-name>
+   <url-pattern>/db</url-pattern>
+ </servlet-mapping>
+  
+</web-app>
+ 

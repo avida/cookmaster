@@ -46,8 +46,8 @@ public class Cookmaster implements EntryPoint {
 	    tabPanel.setAnimationDuration(500);
 	    tabPanel.getElement().getStyle().setMarginBottom(10.0, Unit.PX);
 	    // Add a tab with an image
-	    tabPanel.add(user_form.getForm(), "User Form");
 	    tabPanel.add(recepie_form.getForm(), "Recepie");
+	    tabPanel.add(user_form.getForm(), "User Form");
 	    // Return the content
 	    tabPanel.selectTab(0);
 	    //tabPanel.setHeight("200px");

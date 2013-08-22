@@ -3,6 +3,7 @@ package cookmaster.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 
 
 import cookmaster.client.CookmasterService;
+import cookmaster.client.CookmasterServiceAsync;
 import cookmaster.client.TableWithCells.Recipe;
 
 import cookmaster.server.DBInterface;
@@ -28,24 +30,30 @@ public class CookmasterServiceImpl extends RemoteServiceServlet implements Cookm
 	private int count = 0;
 	private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	
-	public Recipe[] getContacts()
+	public CookmasterServiceAsync.RecipeRResponceData getContacts(String cursor)
 	{
 		FetchOptions fo = FetchOptions.Builder.withLimit(10);
+		if (cursor != null && !cursor.isEmpty()){
+			fo.startCursor(Cursor.fromWebSafeString(cursor));
+		}
 		Query query = new Query(DBInterface.RecipeKey);
 		PreparedQuery pq = datastore.prepare(query);
 		List<Recipe> recipes = new ArrayList<Recipe>();
-		QueryResultList<Entity> results  = pq.asQueryResultList(fo);
-		
-		for (Entity result: pq.asList(fo))
+		QueryResultList<Entity> result = pq.asQueryResultList(fo); 
+		for (Entity item: result)
 		{
-			String name = (String) result.getProperty(DBInterface.captionProp);
-			String manual = ((Text) result.getProperty(DBInterface.manualProp)).getValue();
-			recipes.add( new Recipe(name, manual) );		
+			String name = (String) item.getProperty(DBInterface.captionProp);
+			String manual = ((Text) item.getProperty(DBInterface.manualProp)).getValue();
+			String url = (String) item.getProperty(DBInterface.urlProp);
+			recipes.add( new Recipe(name, manual, url) );		
 		};
+		String nextCursor = result.getCursor().toWebSafeString();
+		
 		Recipe []array = new Recipe[ recipes.size()];
 		array = recipes.toArray(array);
 		Logger.getLogger(this.getClass().getName()).info("Array len is " +  array.length );
-		return array;
+		
+		return new CookmasterServiceAsync.RecipeRResponceData(array, nextCursor);
 	}
 	public Boolean addContact()
 	{

@@ -8,7 +8,7 @@
 	background: #aaa;
 }
 
-.popupContent {
+.gwt-DialogBox {
 	background: #aaa;
-	max-width: 60%;
+	width:95%;
 }
